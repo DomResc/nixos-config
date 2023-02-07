@@ -135,5 +135,12 @@
   system.stateVersion = "22.11"; # Did you read the comment?
 
   # Manual programs
-  programs.git.enable = true;
+  programs.git = {
+    enable = true;
+    package = pkgs.gitFull;
+    config = {
+      init.defaultBranch = "main";
+      credential.helper = "${ pkgs.gitFull.override { withLibsecret = true; } }/bin/git-credential-libsecret";
+    };  
+  };
 }
