@@ -93,22 +93,39 @@
     isNormalUser = true;
     description = "Domenico Rescigno";
     extraGroups = [ "networkmanager" "wheel" ];
-    packages = with pkgs; [
-      firefox
-      enpass
-      mangohud
-      goverlay
-      obsidian
-    ];
+    shell = pkgs.fish;
+    packages = with pkgs; [ ];
   };
-
+  
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
+  # Allow insecure packages
+  nixpkgs.config.permittedInsecurePackages = [
+    "python-2.7.18.6"
+  ];
+  
   # List packages installed in system profile. To search, run:
-  # $ nix search wget
   environment.systemPackages = with pkgs; [
+    # core
     vim
+    firefox
+    enpass
+    gnome.gedit
+    gnome.gnome-tweaks
+    gnomeExtensions.clipboard-indicator   
+    # programming
+    obsidian
+    vscode
+    godot_4
+    aseprite-unfree
+    # game
+    mangohud
+    goverlay
+  ];
+  
+  environment.shells = with pkgs; [ 
+    fish
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -138,7 +155,7 @@
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "22.11"; # Did you read the comment?
 
-  # Manual programs
+  # Programs
   programs.git = {
     enable = true;
     package = pkgs.gitFull;
@@ -150,5 +167,22 @@
 
   programs.steam = {
     enable = true;
+  };
+  
+  programs.fish = {
+    enable = true;
+    shellAbbrs = {
+      config = "sudo gedit /etc/nixos/configuration.nix";
+      upgrade = "sudo nixos-rebuild boot --upgrade-all";
+      clean = "sudo nix-collect-garbage -d";
+    };
+  };
+   
+  # Services 
+  services.syncthing = {
+    enable = true;
+    user = "domresc";
+    dataDir = "/home/domresc/Syncthing";    # Default folder for new synced folders
+    configDir = "/home/domresc/Syncthing/.config/syncthing";   # Folder for Syncthing's settings and keys
   };
 }
