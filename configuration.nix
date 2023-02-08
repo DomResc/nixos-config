@@ -168,8 +168,9 @@
     enable = true;
     shellAbbrs = {
       config = "sudo gedit /etc/nixos/configuration.nix";
+      hardwareConfig = "sudo gedit /etc/nixos/hardware-configuration.nix";
       upgrade = "sudo nixos-rebuild boot --upgrade-all";
-      clean = "sudo nix-collect-garbage -d";
+      clean = "sudo nix-collect-garbage --delete-older-than 30d";
       resetGrid = "gsettings reset org.gnome.shell app-picker-layout";
     };
   };
