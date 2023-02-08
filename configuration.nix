@@ -114,6 +114,7 @@
     p7zip
     onlyoffice-bin
     plex-media-player
+    gimp
     gnome.gedit
     gnome.gnome-tweaks
     gnomeExtensions.clipboard-indicator   
@@ -178,6 +179,7 @@
       config = "sudo gedit /etc/nixos/configuration.nix";
       upgrade = "sudo nixos-rebuild boot --upgrade-all";
       clean = "sudo nix-collect-garbage -d";
+      resetGrid = "gsettings reset org.gnome.shell app-picker-layout";
     };
   };
    
