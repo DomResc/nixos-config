@@ -111,6 +111,9 @@
     vim
     firefox
     enpass
+    p7zip
+    onlyoffice-bin
+    plex-media-player
     gnome.gedit
     gnome.gnome-tweaks
     gnomeExtensions.clipboard-indicator   
