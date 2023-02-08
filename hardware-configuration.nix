@@ -24,7 +24,7 @@
     };
 
   fileSystems."/mnt/data" =
-    { device = "/dev/disk/by-uuid/4068fdc5-9a85-41bf-8882-868817c2083c ";
+    { device = "/dev/disk/by-uuid/4068fdc5-9a85-41bf-8882-868817c2083c";
       fsType = "ext4";
     };
 
