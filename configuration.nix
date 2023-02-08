@@ -96,7 +96,7 @@
     shell = pkgs.fish;
     packages = with pkgs; [ ];
   };
-  
+
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
@@ -104,7 +104,7 @@
   nixpkgs.config.permittedInsecurePackages = [
     "python-2.7.18.6"
   ];
-  
+
   # List packages installed in system profile. To search, run:
   environment.systemPackages = with pkgs; [
     # core
@@ -163,10 +163,6 @@
   programs.git = {
     enable = true;
     package = pkgs.gitFull;
-    config = {
-      init.defaultBranch = "main";
-      credential.helper = "${ pkgs.gitFull.override { withLibsecret = true; } }/bin/git-credential-libsecret";
-    };  
   };
 
   programs.steam = {
