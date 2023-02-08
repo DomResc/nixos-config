@@ -15,13 +15,8 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.efi.efiSysMountPoint = "/boot/efi";
   boot.kernelPackages = pkgs.linuxPackages_latest;
-  
-  # Setup keyfile
-  boot.initrd.secrets = {
-    "/crypto_keyfile.bin" = null;
-  };
 
-  networking.hostName = "domresc-notebook"; # Define your hostname.
+  networking.hostName = "domresc-desktop"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
@@ -58,12 +53,12 @@
 
   # Configure keymap in X11
   services.xserver = {
-    layout = "it";
-    xkbVariant = "";
+    layout = "us";
+    xkbVariant = "intl";
   };
 
   # Configure console keymap
-  console.keyMap = "it2";
+  console.keyMap = "us-acentos";
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
