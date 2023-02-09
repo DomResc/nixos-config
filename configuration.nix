@@ -11,11 +11,14 @@
     ];
 
   # Bootloader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-  boot.loader.efi.efiSysMountPoint = "/boot/efi";
-  boot.kernelPackages = pkgs.linuxPackages_latest;
-  
+  boot = {
+    loader.systemd-boot.enable = true;
+    loader.efi.canTouchEfiVariables = true;
+    loader.efi.efiSysMountPoint = "/boot/efi";
+    supportedFilesystems = [ "ntfs" ];
+    kernelPackages = pkgs.linuxPackages_latest;
+  };
+
   # Setup keyfile
   boot.initrd.secrets = {
     "/crypto_keyfile.bin" = null;
@@ -123,9 +126,6 @@
     vscode
     godot_4
     aseprite-unfree
-    # game
-    mangohud
-    goverlay
   ];
   
   environment.shells = with pkgs; [ 
@@ -186,5 +186,9 @@
     user = "domresc";
     dataDir = "/home/domresc/Syncthing";    # Default folder for new synced folders
     configDir = "/home/domresc/Syncthing/.config/syncthing";   # Folder for Syncthing's settings and keys
+  };
+  
+  services.fstrim = {
+    enable = true;
   };
 }
