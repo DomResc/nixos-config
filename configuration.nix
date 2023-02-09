@@ -15,6 +15,7 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.efi.efiSysMountPoint = "/boot/efi";
   boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.supportedFilesystems = [ "ntfs" ];
 
   networking.hostName = "domresc-desktop"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -121,6 +122,7 @@
     # game
     mangohud
     goverlay
+    heroic
   ];
   
   environment.shells = with pkgs; [ 
@@ -181,5 +183,9 @@
     user = "domresc";
     dataDir = "/home/domresc/Syncthing";    # Default folder for new synced folders
     configDir = "/home/domresc/Syncthing/.config/syncthing";   # Folder for Syncthing's settings and keys
+  };
+  
+  services.fstrim = {
+    enable = true;
   };
 }
