@@ -158,6 +158,15 @@
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "22.11"; # Did you read the comment?
 
+  # Swap
+  swapDevices = [{
+    device = "/swapfile";
+    size = 2048;
+  }];
+
+  # Hardware
+  hardware.xpadneo.enable = true;
+
   # Programs
   programs.git = {
     enable = true;
