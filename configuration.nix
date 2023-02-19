@@ -113,9 +113,11 @@
     onlyoffice-bin
     plex-media-player
     gimp
+    nextcloud-client
     gnome.gedit
     gnome.gnome-tweaks
     gnomeExtensions.clipboard-indicator   
+    gnomeExtensions.tray-icons-reloaded
     # programming
     obsidian
     vscode
