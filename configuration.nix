@@ -187,14 +187,7 @@
     };
   };
    
-  # Services 
-  services.syncthing = {
-    enable = true;
-    user = "domresc";
-    dataDir = "/home/domresc/Syncthing";    # Default folder for new synced folders
-    configDir = "/home/domresc/Syncthing/.config/syncthing";   # Folder for Syncthing's settings and keys
-  };
-  
+  # Services  
   services.fstrim = {
     enable = true;
   };
