@@ -114,6 +114,9 @@
     plex-media-player
     gimp
     nextcloud-client
+    vlc
+    appimage-run
+    bottles
     gnome.gedit
     gnome.gnome-tweaks
     gnomeExtensions.clipboard-indicator   
@@ -127,6 +130,14 @@
     mangohud
     goverlay
     heroic
+    # gstreamer
+    gst_all_1.gstreamer
+    gst_all_1.gst-plugins-base 
+    gst_all_1.gst-plugins-good 
+    gst_all_1.gst-plugins-bad 
+    gst_all_1.gst-plugins-ugly 
+    gst_all_1.gst-libav
+    gst_all_1.gst-vaapi
   ];
   
   environment.shells = with pkgs; [ 
@@ -190,13 +201,6 @@
   };
    
   # Services 
-  services.syncthing = {
-    enable = true;
-    user = "domresc";
-    dataDir = "/home/domresc/Syncthing";    # Default folder for new synced folders
-    configDir = "/home/domresc/Syncthing/.config/syncthing";   # Folder for Syncthing's settings and keys
-  };
-  
   services.fstrim = {
     enable = true;
   };
