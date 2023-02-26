@@ -13,7 +13,6 @@
     loader.efi.efiSysMountPoint = "/boot/efi";
     supportedFilesystems = [ "ntfs" ];
     kernelPackages = pkgs.linuxPackages_zen;
-    kernelParams = [ "amd_pstate=passive" ];
   };
 
   # Hardware
@@ -194,6 +193,7 @@
     enable = true;
     shellAbbrs = {
       config = "sudo gedit /etc/nixos/configuration.nix";
+      updateConfig = "sudo git -C /etc/nixos pull";
       upgrade = "sudo nixos-rebuild switch --upgrade-all";
       clean = "sudo nix-collect-garbage --delete-older-than 30d";
       resetGrid = "gsettings reset org.gnome.shell app-picker-layout";
