@@ -1,7 +1,3 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
-
 { config, pkgs, ... }:
 
 {
@@ -17,9 +13,9 @@
     loader.efi.efiSysMountPoint = "/boot/efi";
     supportedFilesystems = [ "ntfs" ];
     kernelPackages = pkgs.linuxPackages_zen;
-    kernelParams = [ "amd_pstate=passive" ];  
+    kernelParams = [ "amd_pstate=passive" ];
   };
-  
+
   # Hardware
   hardware.cpu.amd.updateMicrocode = true;
 
@@ -129,7 +125,7 @@
     gnome.gedit
     gnome.gnome-tweaks
     gnomeExtensions.clipboard-indicator
-    gnomeExtensions.tray-icons-reloaded   
+    gnomeExtensions.tray-icons-reloaded
     # programming
     obsidian
     vscode
@@ -137,15 +133,15 @@
     aseprite-unfree
     # gstreamer
     gst_all_1.gstreamer
-    gst_all_1.gst-plugins-base 
-    gst_all_1.gst-plugins-good 
-    gst_all_1.gst-plugins-bad 
-    gst_all_1.gst-plugins-ugly 
+    gst_all_1.gst-plugins-base
+    gst_all_1.gst-plugins-good
+    gst_all_1.gst-plugins-bad
+    gst_all_1.gst-plugins-ugly
     gst_all_1.gst-libav
     gst_all_1.gst-vaapi
   ];
-  
-  environment.shells = with pkgs; [ 
+
+  environment.shells = with pkgs; [
     fish
   ];
 
@@ -191,7 +187,7 @@
   programs.steam = {
     enable = true;
   };
-  
+
   programs.fish = {
     enable = true;
     shellAbbrs = {
@@ -201,8 +197,8 @@
       resetGrid = "gsettings reset org.gnome.shell app-picker-layout";
     };
   };
-   
-  # Services  
+
+  # Services
   services.fstrim = {
     enable = true;
   };
