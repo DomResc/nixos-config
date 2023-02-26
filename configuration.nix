@@ -16,8 +16,12 @@
     loader.efi.canTouchEfiVariables = true;
     loader.efi.efiSysMountPoint = "/boot/efi";
     supportedFilesystems = [ "ntfs" ];
-    kernelPackages = pkgs.linuxPackages_latest;
+    kernelPackages = pkgs.linuxPackages_zen;
+    kernelParams = [ "amd_pstate=passive" ];  
   };
+  
+  # Hardware
+  hardware.cpu.amd.updateMicrocode = true;
 
   # Setup keyfile
   boot.initrd.secrets = {
