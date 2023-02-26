@@ -204,10 +204,6 @@
     enable = true;
   };
 
-  programs.corectrl = {
-    enable = true;
-  };
-
   # Services
   services.fstrim = {
     enable = true;
