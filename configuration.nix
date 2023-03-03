@@ -9,7 +9,7 @@
       <nixos-hardware/common/cpu/amd>
       <nixos-hardware/common/cpu/amd/pstate.nix>
       <nixos-hardware/common/gpu/amd>
-      ./hardware-configuration.nix
+      /etc/nixos/hardware-configuration.nix
     ];
 
   # Bootloader.
@@ -52,8 +52,8 @@
   services.xserver.enable = true;
 
   # Enable the KDE Plasma Desktop Environment.
-  services.xserver.displayManager.sddm.enable = true;
-  services.xserver.desktopManager.plasma5.enable = true;
+  services.xserver.displayManager.lightdm.enable = true;
+  services.xserver.desktopManager.pantheon.enable = true;
 
   # Configure keymap in X11
   services.xserver = {
@@ -105,20 +105,16 @@
     onlyoffice-bin
     plex-media-player
     nextcloud-client
-    vlc
     # programming
     obsidian
     vscode
     godot_4
     aseprite-unfree
     # gstreamer
-    gst_all_1.gstreamer
     gst_all_1.gst-plugins-base
     gst_all_1.gst-plugins-good
     gst_all_1.gst-plugins-bad
     gst_all_1.gst-plugins-ugly
-    gst_all_1.gst-libav
-    gst_all_1.gst-vaapi
   ];
 
   environment.shells = with pkgs; [
@@ -147,8 +143,8 @@
   programs.fish = {
     enable = true;
     shellAbbrs = {
-      config = "code ~/.dotfile/nixos-config";
-      upgrade = "sudo nixos-rebuild switch -I nixos-config=~/.dotfile/nixos-config --upgrade-all";
+      config = "code .dotfile/nixos-config";
+      upgrade = "sudo nixos-rebuild switch -I nixos-config=.dotfile/nixos-config/configuration.nix --upgrade-all";
       clean = "sudo nix-collect-garbage --delete-older-than 30d";
     };
   };
