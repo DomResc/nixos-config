@@ -134,6 +134,12 @@
   programs.git = {
     enable = true;
     package = pkgs.gitFull;
+    config = {
+      user = {
+        name = "Domenico Rescigno";
+        email = "domenico.rescigno@gmail.com";
+      };
+    };
   };
 
   programs.steam = {
@@ -144,8 +150,9 @@
     enable = true;
     shellAbbrs = {
       config = "code .dotfile/nixos-config";
-      upgrade = "sudo nixos-rebuild switch -I nixos-config=.dotfile/nixos-config/configuration.nix --upgrade-all";
-      clean = "sudo nix-collect-garbage --delete-older-than 30d";
+      upgrade = "sudo nix-collect-garbage --delete-older-than 7d && sudo nixos-rebuild switch -I nixos-config=.dotfile/nixos-config/configuration.nix --upgrade-all";
     };
   };
+
+  programs.pantheon-tweaks.enable = true;
 }
