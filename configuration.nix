@@ -19,6 +19,8 @@
     kernelPackages = pkgs.linuxPackages_zen;
   };
 
+  powerManagement.cpuFreqGovernor = "schedutil";
+
   # Enable networking
   networking.hostName = "domresc-desktop"; 
   networking.networkmanager.enable = true;
@@ -120,7 +122,7 @@
   ];
 
   # Initial installed version
-  system.stateVersion = "23.05";
+  system.stateVersion = "22.11";
 
   # Swap
   swapDevices = [{
