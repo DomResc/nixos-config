@@ -91,6 +91,7 @@
   # List packages installed in system profile.
   environment.systemPackages = with pkgs; [
     # core
+    btop
     vim
     firefox
     enpass
