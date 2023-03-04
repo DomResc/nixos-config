@@ -21,6 +21,8 @@
     kernelPackages = pkgs.linuxPackages_zen;
   };
 
+  powerManagement.cpuFreqGovernor = "schedutil";
+
   # Setup keyfile
   boot.initrd.secrets = {
     "/crypto_keyfile.bin" = null;
@@ -98,6 +100,7 @@
   # List packages installed in system profile.
   environment.systemPackages = with pkgs; [
     # core
+    btop
     vim
     firefox
     enpass
