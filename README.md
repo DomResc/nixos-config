@@ -1,5 +1,5 @@
 # nixos-config
-In this repo is saved my NixOS configuration, every machine has
+In this repo is saved my NixOS configuration, every machine has its own branch
 
 # to use nixos-hardware you need to
 ```
