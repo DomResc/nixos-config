@@ -101,18 +101,18 @@
   environment.systemPackages = with pkgs; [
     # core
     btop
-    vim
     firefox
     enpass
     p7zip
     onlyoffice-bin
     plex-media-player
     nextcloud-client
-    # programming
     obsidian
+    # programming
     vscode
     godot_4
     aseprite-unfree
+    lazygit
     # gstreamer
     gst_all_1.gst-plugins-base
     gst_all_1.gst-plugins-good
@@ -155,6 +155,13 @@
       config = "code .dotfile/nixos-config";
       upgrade = "sudo nix-collect-garbage --delete-older-than 7d && sudo nixos-rebuild switch -I nixos-config=.dotfile/nixos-config/configuration.nix --upgrade-all";
     };
+  };
+
+  programs.neovim = {
+    enable = true;
+    defaultEditor = true;
+    viAlias = true;
+    vimAlias = true;
   };
 
   programs.pantheon-tweaks.enable = true;
