@@ -94,15 +94,14 @@
   environment.systemPackages = with pkgs; [
     # core
     btop
-    vim
     firefox
     enpass
     p7zip
     onlyoffice-bin
     plex-media-player
     nextcloud-client
-    # programming
     obsidian
+    # programming
     vscode
     godot_4
     aseprite-unfree
@@ -110,6 +109,7 @@
     mangohud
     goverlay
     heroic
+    bottles
     # gstreamer
     gst_all_1.gst-plugins-base
     gst_all_1.gst-plugins-good
@@ -159,6 +159,13 @@
 
   programs.corectrl = {
     enable = true;
+  };
+
+  programs.neovim = {
+    enable = true;
+    defaultEditor = true;
+    viAlias = true;
+    vimAlias = true;
   };
 
   programs.pantheon-tweaks.enable = true;
