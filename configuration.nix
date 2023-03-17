@@ -108,8 +108,6 @@
     # game
     mangohud
     goverlay
-    heroic
-    bottles
     # gstreamer
     gst_all_1.gst-plugins-base
     gst_all_1.gst-plugins-good
@@ -153,7 +151,7 @@
     enable = true;
     shellAbbrs = {
       config = "code .dotfile/nixos-config";
-      upgrade = "sudo nix-collect-garbage --delete-older-than 7d && sudo nixos-rebuild switch -I nixos-config=.dotfile/nixos-config/configuration.nix --upgrade-all";
+      upgrade = "sudo nix-collect-garbage --delete-older-than 7d && sudo nixos-rebuild boot -I nixos-config=.dotfile/nixos-config/configuration.nix --upgrade-all";
     };
   };
 
