@@ -17,9 +17,29 @@
     loader.systemd-boot.enable = true;
     loader.efi.canTouchEfiVariables = true;
     loader.efi.efiSysMountPoint = "/boot/efi";
+    loader.systemd-boot.configurationLimit = 3;
     supportedFilesystems = [ "ntfs" ];
     kernelPackages = pkgs.linuxPackages_zen;
   };
+
+  nix = {
+    settings.auto-optimise-store = true;
+    gc = {
+      automatic = true;
+      dates = "weekly";
+      options = "--delete-older-than 7d";
+    };
+  };
+
+  system.autoUpgrade = {
+      enable = true;
+      dates = "daily";
+      flags = [
+        "-I"
+        "nixos-config=/home/domresc/.dotfile/nixos-config/configuration.nix"
+        "--upgrade-all"
+      ];
+   };
 
   powerManagement.cpuFreqGovernor = "schedutil";
 
@@ -152,7 +172,7 @@
     enable = true;
     shellAbbrs = {
       config = "code .dotfile/nixos-config";
-      upgrade = "sudo nix-collect-garbage --delete-older-than 7d && sudo nixos-rebuild boot -I nixos-config=.dotfile/nixos-config/configuration.nix --upgrade-all";
+      rebuild = "sudo nixos-rebuild switch -I nixos-config=.dotfile/nixos-config/configuration.nix";
     };
   };
 
