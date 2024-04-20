@@ -5,7 +5,8 @@
     [
       <nixos-hardware/common/pc>
       <nixos-hardware/common/pc/ssd>
-      <nixos-hardware/common/pc/laptop>      
+      <nixos-hardware/common/pc/laptop>
+      <nixos-hardware/common/pc/laptop/acpi_call.nix>
       <nixos-hardware/common/cpu/amd>
       <nixos-hardware/common/cpu/amd/pstate.nix>
       <nixos-hardware/common/gpu/amd>
@@ -16,7 +17,6 @@
   boot = {
     loader.systemd-boot.enable = true;
     loader.efi.canTouchEfiVariables = true;
-    loader.efi.efiSysMountPoint = "/boot/efi";
     loader.systemd-boot.configurationLimit = 3;
     supportedFilesystems = [ "ntfs" ];
     kernelPackages = pkgs.linuxPackages_zen;
@@ -41,15 +41,8 @@
       ];
    };
 
-  powerManagement.cpuFreqGovernor = "schedutil";
-
-  # Setup keyfile
-  boot.initrd.secrets = {
-    "/crypto_keyfile.bin" = null;
-  };
-
   # Enable networking
-  networking.hostName = "domresc-notebook"; 
+  networking.hostName = "domresc-notebook";
   networking.networkmanager.enable = true;
 
   # Set your time zone.
@@ -73,14 +66,14 @@
   # Enable the X11 windowing system.
   services.xserver.enable = true;
 
-  # Enable the Desktop Environment.
-  services.xserver.displayManager.lightdm.enable = true;
-  services.xserver.desktopManager.pantheon.enable = true;
+  # Enable the GNOME Desktop Environment.
+  services.xserver.displayManager.gdm.enable = true;
+  services.xserver.desktopManager.gnome.enable = true;
 
   # Configure keymap in X11
-  services.xserver = {
+  services.xserver.xkb = {
     layout = "it";
-    xkbVariant = "";
+    variant = "";
   };
 
   # Configure console keymap
@@ -112,31 +105,29 @@
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
-  # Allow insecure packages
-  nixpkgs.config.permittedInsecurePackages = [
-    "python-2.7.18.6"
-  ];
-
   # List packages installed in system profile.
   environment.systemPackages = with pkgs; [
     # core
     btop
     firefox
     enpass
+    vlc
     p7zip
     onlyoffice-bin
-    plex-media-player
-    nextcloud-client
     obsidian
+    rclone
+    # gnome
+    gnome.gnome-tweaks
+    gnome-extension-manager
+    adw-gtk3
+    gnomeExtensions.pano
+    gnomeExtensions.alphabetical-app-grid
+    gnomeExtensions.forge
     # programming
-    vscode
-    godot_4
-    aseprite-unfree
-    # gstreamer
-    gst_all_1.gst-plugins-base
-    gst_all_1.gst-plugins-good
-    gst_all_1.gst-plugins-bad
-    gst_all_1.gst-plugins-ugly
+    nil
+    vscodium
+    # 3D
+    orca-slicer
   ];
 
   environment.shells = with pkgs; [
@@ -144,7 +135,7 @@
   ];
 
   # Initial installed version
-  system.stateVersion = "23.05";
+  system.stateVersion = "24.05";
 
   # Swap
   swapDevices = [{
@@ -171,7 +162,7 @@
   programs.fish = {
     enable = true;
     shellAbbrs = {
-      config = "code .dotfile/nixos-config";
+      config = "codium .dotfile/nixos-config";
       rebuild = "sudo nixos-rebuild switch -I nixos-config=.dotfile/nixos-config/configuration.nix";
     };
   };
@@ -183,5 +174,41 @@
     vimAlias = true;
   };
 
-  programs.pantheon-tweaks.enable = true;
+  systemd.services.google-drive-mount = {
+    description = "Mount Google Drive";
+    after = [ "network-online.target" ];
+    wantedBy = [ "multi-user.target" ];
+    requires = [ "network-online.target" ];
+
+    serviceConfig = {
+      Type = "simple";
+      ExecStartPre = "/run/current-system/sw/bin/mkdir -p /home/domresc/Cloud/google-drive";
+      ExecStart = "${pkgs.rclone}/bin/rclone mount drive: /home/domresc/Cloud/google-drive --vfs-cache-mode full";
+      ExecStop = "/run/current-system/sw/bin/fusermount -u /home/domresc/Cloud/google-drive";
+      Restart = "on-failure";
+      RestartSec = "10s";
+      User = "domresc";
+      Group = "users";
+      Environment = [ "PATH=/run/wrappers/bin/:$PATH" ];
+     };
+  };
+
+  systemd.services.onedrive-mount = {
+    description = "Mount OneDrive";
+    after = [ "network-online.target" ];
+    wantedBy = [ "multi-user.target" ];
+    requires = [ "network-online.target" ];
+
+    serviceConfig = {
+      Type = "simple";
+      ExecStartPre = "/run/current-system/sw/bin/mkdir -p /home/domresc/Cloud/onedrive";
+      ExecStart = "${pkgs.rclone}/bin/rclone mount onedrive: /home/domresc/Cloud/onedrive --vfs-cache-mode full";
+      ExecStop = "/run/current-system/sw/bin/fusermount -u /home/domresc/Cloud/onedrive";
+      Restart = "on-failure";
+      RestartSec = "10s";
+      User = "domresc";
+      Group = "users";
+      Environment = [ "PATH=/run/wrappers/bin/:$PATH" ];
+     };
+  };
 }
