@@ -79,6 +79,7 @@
   environment.systemPackages = with pkgs; [
     docker-compose
     dig
+    btop
   ];
 
   # Shell
