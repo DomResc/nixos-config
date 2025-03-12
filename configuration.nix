@@ -78,6 +78,7 @@
   # Package
   environment.systemPackages = with pkgs; [
     docker-compose
+    dig
   ];
 
   # Shell
