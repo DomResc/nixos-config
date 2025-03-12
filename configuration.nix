@@ -67,7 +67,7 @@
   users.users.domresc = {
     isNormalUser = true;
     description = "Domenico Rescigno";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "docker" ];
     shell = pkgs.fish;
     packages = with pkgs; [];
   };
