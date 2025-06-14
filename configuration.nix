@@ -3,12 +3,9 @@
 {
   imports =
     [
-      <nixos-hardware/common/pc>
-      <nixos-hardware/common/pc/ssd>
       <nixos-hardware/common/pc/laptop>
-      <nixos-hardware/common/pc/laptop/acpi_call.nix>
+      <nixos-hardware/common/pc/ssd>
       <nixos-hardware/common/cpu/amd>
-      <nixos-hardware/common/cpu/amd/pstate.nix>
       <nixos-hardware/common/gpu/amd>
       /etc/nixos/hardware-configuration.nix
     ];
@@ -18,7 +15,6 @@
     loader.systemd-boot.enable = true;
     loader.efi.canTouchEfiVariables = true;
     loader.systemd-boot.configurationLimit = 3;
-    supportedFilesystems = [ "ntfs" ];
     kernelPackages = pkgs.linuxPackages_zen;
   };
 
@@ -81,10 +77,10 @@
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
+  services.ipp-usb.enable = true;
 
   # Enable sound with pipewire.
-  sound.enable = true;
-  hardware.pulseaudio.enable = false;
+  services.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
@@ -109,25 +105,24 @@
   environment.systemPackages = with pkgs; [
     # core
     btop
-    firefox
-    enpass
+    brave
     vlc
     p7zip
-    onlyoffice-bin
     obsidian
-    rclone
+    gearlever
+    # cloud
+    nextcloud-client
+    filen-desktop
     # gnome
-    gnome.gnome-tweaks
+    gnome-tweaks
     gnome-extension-manager
-    adw-gtk3
-    gnomeExtensions.pano
-    gnomeExtensions.alphabetical-app-grid
-    gnomeExtensions.forge
+    gnomeExtensions.appindicator
+    gnomeExtensions.system-monitor
+    gnomeExtensions.clipboard-indicator
     # programming
-    nil
-    vscodium
+    vscode
     # 3D
-    orca-slicer
+    bambu-studio
   ];
 
   environment.shells = with pkgs; [
@@ -135,7 +130,7 @@
   ];
 
   # Initial installed version
-  system.stateVersion = "24.05";
+  system.stateVersion = "25.05";
 
   # Swap
   swapDevices = [{
@@ -162,7 +157,7 @@
   programs.fish = {
     enable = true;
     shellAbbrs = {
-      config = "codium .dotfile/nixos-config";
+      config = "code .dotfile/nixos-config";
       rebuild = "sudo nixos-rebuild switch -I nixos-config=.dotfile/nixos-config/configuration.nix";
     };
   };
@@ -174,41 +169,8 @@
     vimAlias = true;
   };
 
-  systemd.services.google-drive-mount = {
-    description = "Mount Google Drive";
-    after = [ "network-online.target" ];
-    wantedBy = [ "multi-user.target" ];
-    requires = [ "network-online.target" ];
-
-    serviceConfig = {
-      Type = "simple";
-      ExecStartPre = "/run/current-system/sw/bin/mkdir -p /home/domresc/Cloud/google-drive";
-      ExecStart = "${pkgs.rclone}/bin/rclone mount drive: /home/domresc/Cloud/google-drive --vfs-cache-mode full";
-      ExecStop = "/run/current-system/sw/bin/fusermount -u /home/domresc/Cloud/google-drive";
-      Restart = "on-failure";
-      RestartSec = "10s";
-      User = "domresc";
-      Group = "users";
-      Environment = [ "PATH=/run/wrappers/bin/:$PATH" ];
-     };
-  };
-
-  systemd.services.onedrive-mount = {
-    description = "Mount OneDrive";
-    after = [ "network-online.target" ];
-    wantedBy = [ "multi-user.target" ];
-    requires = [ "network-online.target" ];
-
-    serviceConfig = {
-      Type = "simple";
-      ExecStartPre = "/run/current-system/sw/bin/mkdir -p /home/domresc/Cloud/onedrive";
-      ExecStart = "${pkgs.rclone}/bin/rclone mount onedrive: /home/domresc/Cloud/onedrive --vfs-cache-mode full";
-      ExecStop = "/run/current-system/sw/bin/fusermount -u /home/domresc/Cloud/onedrive";
-      Restart = "on-failure";
-      RestartSec = "10s";
-      User = "domresc";
-      Group = "users";
-      Environment = [ "PATH=/run/wrappers/bin/:$PATH" ];
-     };
+  programs.appimage = { 
+    enable = true;
+    binfmt = true;
   };
 }
